@@ -1,0 +1,1 @@
+export type AvailableCurrenciesDto = Record<string, string>;
