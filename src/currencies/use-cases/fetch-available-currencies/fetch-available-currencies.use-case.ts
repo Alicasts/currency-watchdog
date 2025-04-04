@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CurrenciesService } from 'src/currencies/currencies.service';
-import { AvailableCurrencyDto } from 'src/currencies/dto/available-currency.dto';
-import { AvailableCurrenciesRepository } from 'src/currencies/repositories/available-currencies.repository';
+import { CurrenciesService } from '../../../currencies/currencies.service';
+import { AvailableCurrencyDto } from '../../dto/available-currency.dto';
+import { AvailableCurrenciesRepository } from '../../repositories/available-currencies.repository';
 
 @Injectable()
 export class LoadAvailableCurrenciesUseCase {

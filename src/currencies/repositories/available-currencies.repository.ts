@@ -1,4 +1,4 @@
-import { PrismaService } from "prisma/prisma.service";
+import { PrismaService } from "../../../prisma/prisma.service";
 import { AvailableCurrencyDto } from "../dto/available-currency.dto";
 import { subDays, isAfter } from 'date-fns';
 import { Injectable } from "@nestjs/common";
