@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoadAvailableCurrenciesUseCase } from '../../../../src/currencies/use-cases/fetch-available-currencies/fetch-available-currencies.use-case';
-import { CurrenciesService } from '../../../../src/currencies/currencies.service';
+import { FetchAvailableCurrenciesService } from '../../../../src/currencies/coin-awesome-api/fetch-available-currencies.service';
 import { AvailableCurrenciesRepository } from '../../../../src/currencies/repositories/available-currencies.repository';
 import { AvailableCurrencyDto } from '../../../../src/currencies/dto/available-currency.dto';
 
 describe('LoadAvailableCurrenciesUseCase', () => {
   let useCase: LoadAvailableCurrenciesUseCase;
-  let currenciesService: CurrenciesService;
+  let fetchAvailableCurrenciesService: FetchAvailableCurrenciesService;
   let repository: AvailableCurrenciesRepository;
 
   beforeEach(async () => {
@@ -14,7 +14,7 @@ describe('LoadAvailableCurrenciesUseCase', () => {
       providers: [
         LoadAvailableCurrenciesUseCase,
         {
-          provide: CurrenciesService,
+          provide: FetchAvailableCurrenciesService,
           useValue: {
             fetchAvailableCurrencies: jest.fn(),
           },
@@ -31,7 +31,7 @@ describe('LoadAvailableCurrenciesUseCase', () => {
     }).compile();
 
     useCase = module.get(LoadAvailableCurrenciesUseCase);
-    currenciesService = module.get(CurrenciesService);
+    fetchAvailableCurrenciesService = module.get(FetchAvailableCurrenciesService);
     repository = module.get(AvailableCurrenciesRepository);
   });
 
@@ -57,13 +57,13 @@ describe('LoadAvailableCurrenciesUseCase', () => {
     };
 
     jest.spyOn(repository, 'isCacheValid').mockResolvedValue(false);
-    jest.spyOn(currenciesService, 'fetchAvailableCurrencies').mockResolvedValue(mockApiResponse);
+    jest.spyOn(fetchAvailableCurrenciesService, 'fetchAvailableCurrencies').mockResolvedValue(mockApiResponse);
     const saveAllSpy = jest.spyOn(repository, 'saveAll').mockResolvedValue(undefined);
 
     const result = await useCase.execute();
 
     expect(repository.isCacheValid).toHaveBeenCalled();
-    expect(currenciesService.fetchAvailableCurrencies).toHaveBeenCalled();
+    expect(fetchAvailableCurrenciesService.fetchAvailableCurrencies).toHaveBeenCalled();
     expect(saveAllSpy).toHaveBeenCalled();
 
     expect(result).toEqual([

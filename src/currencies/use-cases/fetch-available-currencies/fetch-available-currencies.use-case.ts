@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { CurrenciesService } from '../../../currencies/currencies.service';
+import { FetchAvailableCurrenciesService } from '../../coin-awesome-api/fetch-available-currencies.service';
 import { AvailableCurrencyDto } from '../../dto/available-currency.dto';
 import { AvailableCurrenciesRepository } from '../../repositories/available-currencies.repository';
 
 @Injectable()
 export class LoadAvailableCurrenciesUseCase {
   constructor(
-    private readonly currenciesService: CurrenciesService,
-    private readonly availableCurrenciesRepository: AvailableCurrenciesRepository,) {}
+    private readonly repository: AvailableCurrenciesRepository,
+    private readonly fetchService: FetchAvailableCurrenciesService) {}
 
     async execute(): Promise<AvailableCurrencyDto[]> {
-      const isCacheValid = await this.availableCurrenciesRepository.isCacheValid();
+      const isCacheValid = await this.repository.isCacheValid();
   
       if (isCacheValid) {
-        return this.availableCurrenciesRepository.getAll();
+        return this.repository.getAll();
       }
   
-      const result = await this.currenciesService.fetchAvailableCurrencies();
+      const result = await this.fetchService.fetchAvailableCurrencies();
   
       const currencies = Object.entries(result).map(
         ([code, label]) => new AvailableCurrencyDto(code, label),
       );
   
-      await this.availableCurrenciesRepository.saveAll(currencies);
+      await this.repository.saveAll(currencies);
   
       return currencies;
     }
