@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { AvailableCurrenciesDto } from './dto/available-currencies.dto';
 import { firstValueFrom } from 'rxjs';
+import { AvailableCurrenciesDto } from '../dto/available-currencies.dto';
 
 @Injectable()
-export class CurrenciesService {
+export class FetchAvailableCurrenciesService {
   constructor(private readonly httpService: HttpService) {}
 
   async fetchAvailableCurrencies(): Promise<AvailableCurrenciesDto> {
