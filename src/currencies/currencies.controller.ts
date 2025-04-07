@@ -3,7 +3,9 @@ import { LoadAvailableCurrenciesUseCase } from './use-cases/fetch-available-curr
 import { AvailableCurrencyDto } from './dto/available-currency.dto';
 import { CurrencyComparisonDetails } from './dto/currency-comparison-details.dto';
 import { FetchComparisonDetailsUseCase } from './use-cases/fetch-currency-comparison/fetch-comparison-details.use-case';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('currencies')
 @Controller('currencies')
 export class CurrenciesController {
     constructor(
