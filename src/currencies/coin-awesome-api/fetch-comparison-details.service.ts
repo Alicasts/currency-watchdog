@@ -3,13 +3,14 @@ import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
 import { CurrencyComparisonDetails } from '../dto/currency-comparison-details.dto';
 import { CurrencyHistoricalData } from '../dto/currency-historical-data.dto';
+import { AWESOME_API_ENDPOINTS } from '../common/constants/awesomeapi.constants';
 
 @Injectable()
 export class FetchComparisonDetailsService {
   constructor(private readonly httpService: HttpService) {}
 
   async execute(pair: string, days: number): Promise<CurrencyComparisonDetails> {
-    const url = `https://economia.awesomeapi.com.br/json/daily/${pair}/${days}`;
+    const url = AWESOME_API_ENDPOINTS.DAILY_COMPARISON(pair, days);
     const response = await firstValueFrom(this.httpService.get(url));
     const rawData = response.data;
 
